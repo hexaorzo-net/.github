@@ -1,1 +1,45 @@
 
+# fly.toml app configuration file generated for hexaorzo-status on 2024-01-05T08:18:14Z
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = "hexaorzo-status"
+primary_region = "hkg"
+kill_signal = "SIGINT"
+kill_timeout = "5s"
+
+[experimental]
+  auto_rollback = true
+
+[build]
+  image = "louislam/uptime-kuma:latest"
+
+[[mounts]]
+  source = "status_data_machines"
+  destination = "/app/data"
+  processes = ["app"]
+  auto_extend_size_threshold = 0
+
+[[services]]
+  protocol = "tcp"
+  internal_port = 3001
+  processes = ["app"]
+
+  [[services.ports]]
+    port = 80
+    handlers = ["http"]
+    force_https = true
+
+  [[services.ports]]
+    port = 443
+    handlers = ["tls", "http"]
+  [services.concurrency]
+    type = "connections"
+    hard_limit = 25
+    soft_limit = 20
+
+  [[services.tcp_checks]]
+    interval = "15s"
+    timeout = "2s"
+    grace_period = "1s"
