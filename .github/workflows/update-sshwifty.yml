@@ -1,0 +1,19 @@
+name: Update Sshwifty
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dopplerhq/secrets-fetch-action@v1.1.2
+        id: doppler
+        with:
+          doppler-token: ${{ secrets.DOPPLER_TOKEN }}
+          doppler-project: hexaorzo-net
+          doppler-config: prd
+          inject-env-vars: true
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - run: flyctl deploy --remote-only --config hexaorzo.net/ssh/sshwifty.toml
