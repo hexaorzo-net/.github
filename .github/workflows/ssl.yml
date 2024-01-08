@@ -7,7 +7,9 @@ jobs:
     name: Issue SSL certificate
     runs-on: ubuntu-latest
     steps:
-      - name: Get CF API key
+      - name: Install acme.sh
+        run: curl https://get.acme.sh | sh -s email=hi@hexaorzo.net
+      - name: Get CF key
         uses: dopplerhq/secrets-fetch-action@v1.1.2
         id: doppler
         with:
@@ -15,8 +17,6 @@ jobs:
           doppler-project: hexaorzo-net
           doppler-config: prd
           inject-env-vars: true
-      - name: Install acme.sh
-        run: curl https://get.acme.sh | sh -s email=hi@hexaorzo.net
       - name: Issue SSL cert
         run: |
           cd /home/runner/.acme.sh
