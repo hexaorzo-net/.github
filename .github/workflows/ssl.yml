@@ -26,9 +26,9 @@ jobs:
           DOPPLER_TOKEN: ${{ secrets.DOPPLER_SERVICE_TOKEN }}
         run: |
           cd /home/runner/.acme.sh/hexaorzo.net_ecc/
-          cat hexaorzo.net.cer | doppler secrets set -p hexaorzo.net -c prd SSL_CERT
-          cat hexaorzo.net.key | doppler secrets set -p hexaorzo.net -c prd SSL_KEY
-          cat ca.cer | doppler secrets set -p hexaorzo.net -c prd SSL_CA
-          cat fullchain.cer | doppler secrets set -p hexaorzo.net -c prd SSL_FULLCHAIN
+          cat hexaorzo.net.cer | doppler secrets set -p hexaorzo-net -c prd SSL_CERT
+          cat hexaorzo.net.key | doppler secrets set -p hexaorzo-net -c prd SSL_KEY
+          cat ca.cer | doppler secrets set -p hexaorzo-net -c prd SSL_CA
+          cat fullchain.cer | doppler secrets set -p hexaorzo-net -c prd SSL_FULLCHAIN
 
           
