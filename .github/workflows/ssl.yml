@@ -9,17 +9,9 @@ jobs:
     steps:
       - name: Install acme.sh
         run: curl https://get.acme.sh | sh -s email=hi@hexaorzo.net
-      - name: Get CF key
-        uses: dopplerhq/secrets-fetch-action@v1.1.2
-        id: doppler
-        with:
-          doppler-token: ${{ secrets.DOPPLER_TOKEN }}
-          doppler-project: hexaorzo-net
-          doppler-config: prd
-          inject-env-vars: true
       - name: Issue SSL cert
         run: |
           cd /home/runner/.acme.sh
-          ./acme.sh --issue --dns dns_cf -d hexaorzo.net -d '*.hexaorzo.net'
+          ./acme.sh --issue --dns dns_cf -d hexaorzo.net -d '*.hexaorzo.net' --server letsencrypt
       - name: Install Doppler CLI
         uses: DopplerHQ/cli-action@v2
