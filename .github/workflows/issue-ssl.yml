@@ -1,5 +1,7 @@
 name: Issue Wildcard SSL
 on:
+  schedule:
+    -cron: 0 0 * 1-12/2 *
   workflow_dispatch:
 
 jobs:
