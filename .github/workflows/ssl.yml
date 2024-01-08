@@ -1,0 +1,23 @@
+name: Issue Wildcard SSL
+on:
+  workflow_dispatch:
+
+jobs:
+  issue-ssl-certificate:
+    name: Issue SSL certificate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get CF API key
+        uses: dopplerhq/secrets-fetch-action@v1.1.2
+        id: doppler
+        with:
+          doppler-token: ${{ secrets.DOPPLER_TOKEN }}
+          doppler-project: hexaorzo-net
+          doppler-config: prd
+          inject-env-vars: true
+      - name: Install acme.sh
+        run: curl https://get.acme.sh | sh -s email=hi@hexaorzo.net
+      - name: Issue SSL cert
+        run: ./acme.sh --issue --dns dns_cf -d hexaorzo.net -d '*.hexaorzo.net'
+      - name: Install Doppler CLI
+        uses: DopplerHQ/cli-action@v2
