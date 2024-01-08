@@ -18,6 +18,8 @@ jobs:
       - name: Install acme.sh
         run: curl https://get.acme.sh | sh -s email=hi@hexaorzo.net
       - name: Issue SSL cert
-        run: ./.acme.sh/acme.sh --issue --dns dns_cf -d hexaorzo.net -d '*.hexaorzo.net'
+        run: |
+          cd /home/runner/.acme.sh
+          ./acme.sh --issue --dns dns_cf -d hexaorzo.net -d '*.hexaorzo.net'
       - name: Install Doppler CLI
         uses: DopplerHQ/cli-action@v2
