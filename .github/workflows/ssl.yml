@@ -18,4 +18,17 @@ jobs:
           arguments: --dns dns_cf --server letsencrypt
           output-fullchain: output/fullchain.pem
           output-key: output/key.pem
+          uninstall: false
+      - name: Install Doppler CLI
+        uses: DopplerHQ/cli-action@v2
+      - name: Export SSL
+        env:
+          DOPPLER_TOKEN: ${{ secrets.DOPPLER_SERVICE_TOKEN }}
+        run: |
+          cd /home/runner/.acme.sh/hexaorzo.net_ecc/
+          cat hexaorzo.net.cer | doppler secrets set SSL_CERT
+          cat hexaorzo.net.key | doppler secrets set SSL_KEY
+          cat ca.cer | doppler secrets set SSL_CA
+          cat fullchain.cer | doppler secrets set SSL_FULLCHAIN
+
           
